@@ -17,13 +17,13 @@ public class CustomerController {
 	@Autowired
 	CustomerService serviceCustomer;
 	
-	@RequestMapping(value = "/Customer", method = RequestMethod.POST)
+	@RequestMapping(value = "/v1/Customer", method = RequestMethod.POST)
 	public HttpStatus insertCustomer(@RequestBody final Customer customer) {
 		
 		return serviceCustomer.addCustomer(customer) ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
 	}
 	
-	@RequestMapping(value = "/Customer/auth", method = RequestMethod.POST)
+	@RequestMapping(value = "/v1/Customer/auth", method = RequestMethod.POST)
 	public Customer insertCustomer(@RequestParam("email") final String email, @RequestParam("password") final String password) {
 		
 		return serviceCustomer.findByEmailPassword(email, password);

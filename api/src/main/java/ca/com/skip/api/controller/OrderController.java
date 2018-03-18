@@ -26,19 +26,19 @@ public class OrderController {
 	@Autowired
 	CustomerService serviceCustomer;
 	
-	@RequestMapping(value = "/Order/{orderId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Order/{orderId}", method = RequestMethod.GET)
 	public @ResponseBody Order getOrder(@PathVariable final Integer orderId) {
 		
 		return serviceOrder.findById(orderId);
 	}
 	
-	@RequestMapping(value = "/Order", method = RequestMethod.POST)
+	@RequestMapping(value = "/v1/Order", method = RequestMethod.POST)
 	public HttpStatus insertOrder(@RequestBody final Order order) {
 		
 		return serviceOrder.addOrder(order) ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
 	}
 	
-	@RequestMapping(value = "/Order/customer", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Order/customer", method = RequestMethod.GET)
 	public List<Order> getAllOrderByCustomer(@RequestParam("customer") final Customer customer) {
 		
 		return serviceOrder.findByCustomerId(customer.getId());

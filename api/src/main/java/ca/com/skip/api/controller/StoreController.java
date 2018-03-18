@@ -23,25 +23,25 @@ public class StoreController {
 	@Autowired
 	ProductService serviceProduct;
 	
-	@RequestMapping(value = "/Store", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Store", method = RequestMethod.GET)
 	public List<Store> getAllStores() {
 		
 		return serviceStore.getAllStores();
 	}
 	
-	@RequestMapping(value = "/Store/search/{searchText}", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Store/search/{searchText}", method = RequestMethod.GET)
 	public List<Store> getAllStores(@PathVariable final String searchText) {
 		
 		return serviceStore.findByName(searchText);
 	}
 	
-	@RequestMapping(value = "/Store/{storeId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Store/{storeId}", method = RequestMethod.GET)
 	public @ResponseBody Store getStore(@PathVariable final Integer storeId) {
 		
 		return serviceStore.findById(storeId);
 	}
 	
-	@RequestMapping(value = "/Store/{storeId}/products", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Store/{storeId}/products", method = RequestMethod.GET)
 	public List<Product> getAllProductsByStoreId(@PathVariable final Integer storeId) {
 		
 		return serviceProduct.findByStoreId(storeId);

@@ -18,19 +18,19 @@ public class ProductController {
 	@Autowired
 	ProductService serviceProduct;
 	
-	@RequestMapping(value = "/Product", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Product", method = RequestMethod.GET)
 	public List<Product> getAllProducts() {
 		
 		return serviceProduct.getAllProducts();
 	}
 	
-	@RequestMapping(value = "/Product/search/{searchText}", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Product/search/{searchText}", method = RequestMethod.GET)
 	public List<Product> getAllProducts(@PathVariable final String searchText) {
 		
 		return serviceProduct.findByName(searchText);
 	}
 	
-	@RequestMapping(value = "/Product/{productId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Product/{productId}", method = RequestMethod.GET)
 	public @ResponseBody Product getProductById(@PathVariable final Integer productId) {
 		
 		return serviceProduct.findById(productId);

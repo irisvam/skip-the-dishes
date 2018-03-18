@@ -22,19 +22,19 @@ public class CousineController {
 	@Autowired
 	StoreService serviceStore;
 	
-	@RequestMapping(value = "/Cousine", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Cousine", method = RequestMethod.GET)
 	public List<Cousine> getAllCousines() {
 		
 		return serviceCousine.getAllCousines();
 	}
 	
-	@RequestMapping(value = "/Cousine/search/{searchText}", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Cousine/search/{searchText}", method = RequestMethod.GET)
 	public List<Cousine> getAllCousines(@PathVariable final String searchText) {
 		
 		return serviceCousine.findByName(searchText);
 	}
 	
-	@RequestMapping(value = "/Cousine/{cousineId}/stores", method = RequestMethod.GET)
+	@RequestMapping(value = "/v1/Cousine/{cousineId}/stores", method = RequestMethod.GET)
 	public List<Store> getAllStoresByCousineId(@PathVariable final Integer cousineId) {
 		
 		return serviceStore.findByCousineId(cousineId);

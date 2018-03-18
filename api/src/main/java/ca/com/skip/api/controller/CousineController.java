@@ -13,6 +13,12 @@ import ca.com.skip.api.model.Store;
 import ca.com.skip.api.services.CousineService;
 import ca.com.skip.api.services.StoreService;
 
+
+/**
+ * Cousine Controller Service.
+ * 
+ * @author irisvam
+ */
 @RestController
 public class CousineController {
 	
@@ -22,18 +28,35 @@ public class CousineController {
 	@Autowired
 	StoreService serviceStore;
 	
+	/**
+	 * Service to list all cousines.
+	 * 
+	 * @return {@code List<}{@link Cousine}{@code >}
+	 */
 	@RequestMapping(value = "/v1/Cousine", method = RequestMethod.GET)
 	public List<Cousine> getAllCousines() {
 		
 		return serviceCousine.getAllCousines();
 	}
 	
+	/**
+	 * Service to list cousines with the name.
+	 * 
+	 * @param searchText {@link String} with a name of a cousine
+	 * @return {@code List<}{@link Cousine}{@code >}
+	 */
 	@RequestMapping(value = "/v1/Cousine/search/{searchText}", method = RequestMethod.GET)
 	public List<Cousine> getAllCousines(@PathVariable final String searchText) {
 		
 		return serviceCousine.findByName(searchText);
 	}
 	
+	/**
+	 * Service to list stories which have that cousine. 
+	 * 
+	 * @param cousineId {@link Integer} with the {@code ID} of a cousine
+	 * @return {@code List<}{@link Store}{@code >}
+	 */
 	@RequestMapping(value = "/v1/Cousine/{cousineId}/stores", method = RequestMethod.GET)
 	public List<Store> getAllStoresByCousineId(@PathVariable final Integer cousineId) {
 		

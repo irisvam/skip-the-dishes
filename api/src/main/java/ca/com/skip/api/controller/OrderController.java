@@ -17,6 +17,11 @@ import ca.com.skip.api.model.Order;
 import ca.com.skip.api.services.CustomerService;
 import ca.com.skip.api.services.OrderService;
 
+/**
+ * Order Controller Service.
+ * 
+ * @author irisvam
+ */
 @RestController
 public class OrderController {
 	
@@ -26,18 +31,36 @@ public class OrderController {
 	@Autowired
 	CustomerService serviceCustomer;
 	
+	/**
+	 * Service to find a order.
+	 * 
+	 * @param orderId {@link Integer} with the {@code ID} of a order
+	 * @return {@link Order}
+	 */
 	@RequestMapping(value = "/v1/Order/{orderId}", method = RequestMethod.GET)
 	public @ResponseBody Order getOrder(@PathVariable final Integer orderId) {
 		
 		return serviceOrder.findById(orderId);
 	}
 	
+	/**
+	 * Service to insert a new order.
+	 * 
+	 * @param order {@link Order}
+	 * @return {@link HttpStatus} with the status of the request
+	 */
 	@RequestMapping(value = "/v1/Order", method = RequestMethod.POST)
 	public HttpStatus insertOrder(@RequestBody final Order order) {
 		
 		return serviceOrder.addOrder(order) ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
 	}
 	
+	/**
+	 * Service to list orders by customer.
+	 * 
+	 * @param customer {@link Customer}
+	 * @return {@code List<}{@link Order}{@code >}
+	 */
 	@RequestMapping(value = "/v1/Order/customer", method = RequestMethod.GET)
 	public List<Order> getAllOrderByCustomer(@RequestParam("customer") final Customer customer) {
 		

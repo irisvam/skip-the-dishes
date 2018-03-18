@@ -14,6 +14,11 @@ import ca.com.skip.api.model.Store;
 import ca.com.skip.api.services.ProductService;
 import ca.com.skip.api.services.StoreService;
 
+/**
+ * Store Controller Service.
+ * 
+ * @author irisvam
+ */
 @RestController
 public class StoreController {
 	
@@ -23,24 +28,47 @@ public class StoreController {
 	@Autowired
 	ProductService serviceProduct;
 	
+	/**
+	 * Service to list all stores.
+	 * 
+	 * @return {@code List<}{@link Store}{@code >}
+	 */
 	@RequestMapping(value = "/v1/Store", method = RequestMethod.GET)
 	public List<Store> getAllStores() {
 		
 		return serviceStore.getAllStores();
 	}
 	
+	/**
+	 * Service to list all stories with the name.
+	 * 
+	 * @param searchText {@link String} with the name of a store
+	 * @return {@code List<}{@link Store}{@code >}
+	 */
 	@RequestMapping(value = "/v1/Store/search/{searchText}", method = RequestMethod.GET)
 	public List<Store> getAllStores(@PathVariable final String searchText) {
 		
 		return serviceStore.findByName(searchText);
 	}
 	
+	/**
+	 * Service to find a store by ID.
+	 * 
+	 * @param storeId {@link Integer} with the {@code ID} of a store
+	 * @return {@link Store}
+	 */
 	@RequestMapping(value = "/v1/Store/{storeId}", method = RequestMethod.GET)
 	public @ResponseBody Store getStore(@PathVariable final Integer storeId) {
 		
 		return serviceStore.findById(storeId);
 	}
 	
+	/**
+	 * Service to list all products from one store.
+	 * 
+	 * @param storeId {@link Integer} with the {@code ID} of a store
+	 * @return {@code List<}{@link Product}{@code >}
+	 */
 	@RequestMapping(value = "/v1/Store/{storeId}/products", method = RequestMethod.GET)
 	public List<Product> getAllProductsByStoreId(@PathVariable final Integer storeId) {
 		

@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,9 +17,8 @@ public class Customer implements Serializable {
 	private static final long serialVersionUID = 3758543663770749280L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_customer")
-	private Long id;
+	private long id;
 	
 	@Column(name = "de_email")
 	private String email;
@@ -39,12 +36,12 @@ public class Customer implements Serializable {
 	@Column(name = "de_password")
 	private String password;
 	
-	public Long getId() {
+	public long getId() {
 		
 		return id;
 	}
 	
-	public void setId(final Long id) {
+	public void setId(final long id) {
 		
 		this.id = id;
 	}

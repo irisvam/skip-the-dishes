@@ -5,28 +5,29 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ca.com.skip.util.serializer.ProductDeserializer;
 import ca.com.skip.util.serializer.ProductSerializer;
 
 @Entity
 @Table(name = "tb_product")
 @JsonSerialize(using = ProductSerializer.class)
+@JsonDeserialize(using = ProductDeserializer.class)
 public class Product implements Serializable {
 	
 	private static final long serialVersionUID = 5604769293621572135L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_product")
-	private Long id;
+	private long id;
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name = "id_store")
@@ -39,14 +40,17 @@ public class Product implements Serializable {
 	private String description;
 	
 	@Column(name = "db_price")
-	private Double price;
+	private double price;
 	
-	public Long getId() {
+	@Transient
+	private long idStore;
+	
+	public long getId() {
 		
 		return id;
 	}
 	
-	public void setId(final Long id) {
+	public void setId(final long id) {
 		
 		this.id = id;
 	}
@@ -81,14 +85,24 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 	
-	public Double getPrice() {
+	public double getPrice() {
 		
 		return price;
 	}
 	
-	public void setPrice(final Double price) {
+	public void setPrice(final double price) {
 		
 		this.price = price;
+	}
+	
+	public long getIdStore() {
+		
+		return idStore;
+	}
+	
+	public void setIdStore(final long idStore) {
+		
+		this.idStore = idStore;
 	}
 	
 }

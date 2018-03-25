@@ -12,14 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ca.com.skip.util.serializer.OrderItemDeserializer;
 import ca.com.skip.util.serializer.OrderItemSerializer;
 
 @Entity
 @Table(name = "tb_order_item")
 @JsonSerialize(using = OrderItemSerializer.class)
+@JsonDeserialize(using = OrderItemDeserializer.class)
 public class OrderItem implements Serializable {
 	
 	private static final long serialVersionUID = 6172163067353442148L;
@@ -27,7 +31,7 @@ public class OrderItem implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_order_item")
-	private Long id;
+	private long id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_order")
@@ -38,20 +42,26 @@ public class OrderItem implements Serializable {
 	private Product product;
 	
 	@Column(name = "db_price")
-	private Double price;
+	private double price;
 	
 	@Column(name = "nu_quantity")
-	private Integer quantity;
+	private long quantity;
 	
 	@Column(name = "db_total")
-	private Double total;
+	private double total;
 	
-	public Long getId() {
+	@Transient
+	private long idOrder;
+	
+	@Transient
+	private long idProduct;
+	
+	public long getId() {
 		
 		return id;
 	}
 	
-	public void setId(final Long id) {
+	public void setId(final long id) {
 		
 		this.id = id;
 	}
@@ -76,34 +86,54 @@ public class OrderItem implements Serializable {
 		this.product = product;
 	}
 	
-	public Double getPrice() {
+	public double getPrice() {
 		
 		return price;
 	}
 	
-	public void setPrice(final Double price) {
+	public void setPrice(final double price) {
 		
 		this.price = price;
 	}
 	
-	public Integer getQuantity() {
+	public long getQuantity() {
 		
 		return quantity;
 	}
 	
-	public void setQuantity(final Integer quantity) {
+	public void setQuantity(final long quantity) {
 		
 		this.quantity = quantity;
 	}
 	
-	public Double getTotal() {
+	public double getTotal() {
 		
 		return total;
 	}
 	
-	public void setTotal(final Double total) {
+	public void setTotal(final double total) {
 		
 		this.total = total;
+	}
+	
+	public long getIdOrder() {
+		
+		return idOrder;
+	}
+	
+	public void setIdOrder(final long idOrder) {
+		
+		this.idOrder = idOrder;
+	}
+	
+	public long getIdProduct() {
+		
+		return idProduct;
+	}
+	
+	public void setIdProduct(final long idProduct) {
+		
+		this.idProduct = idProduct;
 	}
 	
 }

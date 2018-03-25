@@ -23,7 +23,7 @@ public class OrderSerializer extends JsonSerializer<Order> {
 		jsGenerator.writeNumberField("customerId", value.getCustomer().getId());
 		jsGenerator.writeStringField("deliveryAddress", value.getDeliveryAddress());
 		jsGenerator.writeStringField("contact", value.getContact());
-		jsGenerator.writeNumberField("orderId", value.getStore().getId());
+		jsGenerator.writeNumberField("storeId", value.getStore().getId());
 		
 		jsGenerator.writeObjectField("orderItems", value.getOrderItems());
 		

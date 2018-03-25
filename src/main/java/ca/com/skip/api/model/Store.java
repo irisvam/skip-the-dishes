@@ -1,5 +1,7 @@
 package ca.com.skip.api.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_store")
-public class Store {
+public class Store implements Serializable {
+	
+	private static final long serialVersionUID = -4652744071092704699L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

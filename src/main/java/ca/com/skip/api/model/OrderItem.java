@@ -1,5 +1,7 @@
 package ca.com.skip.api.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import ca.com.skip.util.serializer.OrderItemSerializer;
+
 @Entity
 @Table(name = "tb_order_item")
-public class OrderItem {
+@JsonSerialize(using = OrderItemSerializer.class)
+public class OrderItem implements Serializable {
+	
+	private static final long serialVersionUID = 6172163067353442148L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

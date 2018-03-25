@@ -1,5 +1,6 @@
 package ca.com.skip.api.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "tb_order")
-public class Order {
+public class Order implements Serializable {
+	
+	private static final long serialVersionUID = 560622188806131768L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package ca.com.skip.api.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "tb_customer")
-public class Customer {
+public class Customer implements Serializable {
+	
+	private static final long serialVersionUID = 3758543663770749280L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +28,9 @@ public class Customer {
 	
 	@Column(name = "nm_name")
 	private String name;
+	
+	@Column(name = "de_address")
+	private String address;
 	
 	@Column(name = "dt_creation")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -61,6 +67,16 @@ public class Customer {
 	public void setName(final String name) {
 		
 		this.name = name;
+	}
+	
+	public String getAddress() {
+		
+		return address;
+	}
+	
+	public void setAddress(final String address) {
+		
+		this.address = address;
 	}
 	
 	public Date getCreation() {

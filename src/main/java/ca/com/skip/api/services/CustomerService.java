@@ -13,7 +13,6 @@ public class CustomerService {
 	@Autowired
 	CustomerRepository<Customer> repCustomer;
 	
-	@Transactional
 	public Customer findByEmailPassword(final String email, final String password) {
 		
 		return repCustomer.findByEmailAndPassword(email, password);

@@ -1,14 +1,17 @@
 package ca.com.skip.api.controller;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.com.skip.api.exception.ResourceNotFoundException;
 import ca.com.skip.api.model.Product;
 import ca.com.skip.api.services.ProductService;
 
@@ -18,6 +21,8 @@ import ca.com.skip.api.services.ProductService;
  * @author irisvam
  */
 @RestController
+@Validated
+@RequestMapping("v1")
 public class ProductController {
 	
 	@Autowired
@@ -26,12 +31,12 @@ public class ProductController {
 	/**
 	 * Service to list all products.
 	 * 
-	 * @return  {@code List<}{@link Product}{@code >}
+	 * @return {@code List<}{@link Product}{@code >}
 	 */
-	@RequestMapping(value = "/v1/Product", method = RequestMethod.GET)
-	public List<Product> getAllProducts() {
+	@RequestMapping(value = "/Product", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllProducts() {
 		
-		return serviceProduct.getAllProducts();
+		return new ResponseEntity<>(serviceProduct.getAllProducts(), HttpStatus.OK);
 	}
 	
 	/**
@@ -40,10 +45,10 @@ public class ProductController {
 	 * @param searchText {@link String} with the name of a product
 	 * @return {@code List<}{@link Product}{@code >}
 	 */
-	@RequestMapping(value = "/v1/Product/search/{searchText}", method = RequestMethod.GET)
-	public List<Product> getAllProducts(@PathVariable final String searchText) {
+	@RequestMapping(value = "/Product/search/{searchText}", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllProducts(@PathVariable final String searchText) {
 		
-		return serviceProduct.findByName(searchText);
+		return new ResponseEntity<>(serviceProduct.findByName(searchText), HttpStatus.OK);
 	}
 	
 	/**
@@ -52,9 +57,16 @@ public class ProductController {
 	 * @param productId {@link Long} with the {@code ID} of a product
 	 * @return {@link Product}
 	 */
-	@RequestMapping(value = "/v1/Product/{productId}", method = RequestMethod.GET)
-	public @ResponseBody Product getProductById(@PathVariable final Long productId) {
+	@RequestMapping(value = "/Product/{productId}", method = RequestMethod.GET)
+	public ResponseEntity<?> getProductById(@PathVariable final Long productId) {
 		
-		return serviceProduct.findById(productId);
+		Optional<Product> product = serviceProduct.findById(productId);
+		
+		if (!product.isPresent()) {
+			
+			throw new ResourceNotFoundException("Product not found for ID: " + productId);
+		}
+		
+		return new ResponseEntity<>(product.get(), HttpStatus.OK);
 	}
 }

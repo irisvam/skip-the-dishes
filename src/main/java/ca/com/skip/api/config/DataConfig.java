@@ -1,66 +1,77 @@
 package ca.com.skip.api.config;
 
+import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("ca.com.skip.api.repository")
-@PropertySource("classpath:database.properties")
+@EnableJpaRepositories(basePackages = "ca.com.skip.api.repository")
+@PropertySource(value = { "classpath:database.properties" })
 public class DataConfig {
 	
 	@Autowired
-	Environment environment;
+	private Environment environment;
 	
-	@Bean
-	LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	@Bean(destroyMethod = "close")
+	public DataSource dataSource() throws IllegalStateException, PropertyVetoException {
 		
-		final LocalContainerEntityManagerFactoryBean lfb = new LocalContainerEntityManagerFactoryBean();
-		lfb.setDataSource(dataSource());
-		lfb.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-		lfb.setPackagesToScan("ca.com.skip.api.model");
-		lfb.setJpaProperties(hibernateProps());
-		return lfb;
+		final ComboPooledDataSource dataSource = new ComboPooledDataSource();
+		dataSource.setDriverClass(environment.getRequiredProperty("server.driver"));
+		dataSource.setJdbcUrl(environment.getRequiredProperty("server.url"));
+		dataSource.setUser(environment.getRequiredProperty("server.user"));
+		dataSource.setPassword(environment.getRequiredProperty("server.password"));
+		
+		return dataSource;
 	}
 	
 	@Bean
-	DataSource dataSource() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws IllegalStateException, PropertyVetoException {
 		
-		final DriverManagerDataSource ds = new DriverManagerDataSource();
-		ds.setUrl(environment.getProperty("server.url"));
-		ds.setUsername(environment.getProperty("server.user"));
-		ds.setPassword(environment.getProperty("server.password"));
-		ds.setDriverClassName(environment.getProperty("server.driver"));
-		return ds;
+		final LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
+		entityManager.setDataSource(dataSource());
+		entityManager.setPackagesToScan("ca.com.skip.api.model");
+		entityManager.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+		entityManager.setJpaDialect(new HibernateJpaDialect());
+		entityManager.setJpaProperties(hibernateProperties());
+		
+		return entityManager;
 	}
 	
-	Properties hibernateProps() {
+	public Properties hibernateProperties() {
 		
 		final Properties properties = new Properties();
-		properties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
-		properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2"));
-		properties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+		properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
+		properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
+		properties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+		properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+		
 		return properties;
 	}
 	
 	@Bean
-	JpaTransactionManager transactionManager() {
+	@Autowired
+	public JpaTransactionManager transactionManager() throws IllegalStateException, PropertyVetoException {
 		
 		final JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+		
 		return transactionManager;
 	}
+	
 }

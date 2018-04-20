@@ -1,6 +1,7 @@
 package ca.com.skip.api.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ public class OrderService {
 	OrderRepository<Order> repOrder;
 	
 	@Transactional
-	public Order findById(final Long orderId) {
+	public Optional<Order> findById(final Long orderId) {
 		
-		return repOrder.findOne(orderId);
+		return repOrder.findById(orderId);
 	}
 	
 	@Transactional

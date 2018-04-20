@@ -2,6 +2,8 @@ package ca.com.skip.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,8 @@ import ca.com.skip.api.services.CustomerService;
  * @author irisvam
  */
 @RestController
+@Validated
+@RequestMapping("v1")
 public class CustomerController {
 	
 	@Autowired
@@ -28,10 +32,10 @@ public class CustomerController {
 	 * @param customer {@link Customer}
 	 * @return {@link HttpStatus} with the status of the request
 	 */
-	@RequestMapping(value = "/v1/Customer", method = RequestMethod.POST)
-	public HttpStatus insertCustomer(@RequestBody final Customer customer) {
+	@RequestMapping(value = "/Customer", method = RequestMethod.POST)
+	public ResponseEntity<?> insertCustomer(@RequestBody final Customer customer) {
 		
-		return serviceCustomer.addCustomer(customer) ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+		return new ResponseEntity<>(serviceCustomer.addCustomer(customer), HttpStatus.CREATED);
 	}
 	
 	/**
@@ -41,10 +45,10 @@ public class CustomerController {
 	 * @param password {@link String} with the password of the customer
 	 * @return {@link Customer}
 	 */
-	@RequestMapping(value = "/v1/Customer/auth", method = RequestMethod.POST)
-	public Customer insertCustomer(@RequestParam("email") final String email, @RequestParam("password") final String password) {
+	@RequestMapping(value = "/Customer/auth", method = RequestMethod.POST)
+	public ResponseEntity<?> insertCustomer(@RequestParam("email") final String email, @RequestParam("password") final String password) {
 		
-		return serviceCustomer.findByEmailPassword(email, password);
+		return  new ResponseEntity<>(serviceCustomer.findByEmailPassword(email, password), HttpStatus.OK);
 	}
 	
 }

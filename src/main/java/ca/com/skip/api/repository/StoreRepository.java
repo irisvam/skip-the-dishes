@@ -40,6 +40,6 @@ public interface StoreRepository<P> extends CrudRepository<Store, Long> {
 	 * @param productId {@link Long} with the {@code ID} of a product
 	 * @return {@code List<}{@link Store}{@code >}
 	 */
-	@Query("SELECT s FROM Store s JOIN Product p ON p.store.id = s.id WHERE p.id = ?")
+	@Query("SELECT s FROM Store s JOIN Product p ON p.store.id = s.id WHERE p.id = :productId")
 	List<Store> findByProduct_Id(Long productId);
 }

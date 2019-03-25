@@ -14,7 +14,7 @@
 		<postgres.version>42.2.2</postgres.version>
 		<hibernate.manager>5.2.16.Final</hibernate.manager>
 		<!-- <jackson.version>2.9.5</jackson.version> -->
-		<jackson.version>2.9.6</jackson.version>
+		<jackson.version>2.9.8</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -42,7 +42,8 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.9.5.2</version>
+			<!-- <version>0.9.5.2</version> -->
+			<version>0.9.5.3</version>
 		</dependency>
 
 		<!-- Hibernate -->

@@ -13,7 +13,8 @@
 		<spring.data>2.0.6.RELEASE</spring.data>
 		<postgres.version>42.2.2</postgres.version>
 		<hibernate.manager>5.2.16.Final</hibernate.manager>
-		<jackson.version>2.9.5</jackson.version>
+		<!-- <jackson.version>2.9.5</jackson.version> -->
+		<jackson.version>2.9.6</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
